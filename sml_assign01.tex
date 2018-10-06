@@ -1,0 +1,116 @@
+\documentclass{article}
+   \author{Lei Xiaoxuan\\...}
+   
+   \title{SML assignment 1}
+   \usepackage{listings}
+   \usepackage{color}
+   \usepackage{graphicx}
+   \graphicspath{{/Users/apple/Desktop/matlab_pic/}}
+   \lstset{
+   columns=fixed,frame=none,backgroundcolor=\color[RGB]{245,245,244},keywordstyle=\color[RGB]{40,40,255},commentstyle=\it\color[RGB]{128,0,0},showstringspaces=false,language=matlab,}
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+\item Exercise 1 - weight 5
+\begin{enumerate}
+\item Figure for function $f(x)=1+sin(6(x-2))$ and generated training dataset is as following:
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{sml_ex01_1.jpg}
+\caption{$f(x)=1+sin(6(x-2))$ and training set $D_{10}$}
+\label{fig:label}
+\end{center}
+\end{figure}
+
+\item See .m file "PolCurFit"
+\item 
+\begin{enumerate}
+\item For $M=0,M=1,M=3,M=9$, see Figure 2.
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{sml_asgn01_ex01_03_01.jpg}
+\caption{for different orders $M=0,1,3,9$, function $f$ and observation $D_{10}$}
+\label{fig:label}
+\end{center}
+\end{figure}
+
+
+\item 
+\end{enumerate}
+\item For dataset $D40$, we generated the following figure:
+\item See .m file "mod\_PolCurFit"
+??how to verify
+\item For $D=2$, the general polynomial curve equation is as follows:
+\[y(x;\omega)=\omega_{0,0}+\omega_{1,0}x_{1}+\omega_{0,1}x_{2}+\omega_{2,0}x_{1}^{2}+\omega_{1,1}x_{1}x_{2}+\omega_{0,2}x_{2}^{2}+...+\omega_{0,M}x_{2}^{M}\]
+The number of parameter is $\frac{M^{2}+3M+2}{2}$. 
+\end{enumerate}
+\item Exercise 2 -weight 2.5
+\begin{enumerate}
+\item The plot of function $h$ is as following:
+\begin{figure}[h]
+\begin{center}
+\includegraphics[scale=0.4]{sml_assgn01_ex2_1.jpg}
+\caption{$h(x,y)=100(y-x^{2})^{2}+(1-x)^{2}$}
+\label{fig:label}
+\end{center}
+\end{figure}
+
+We guess from the plot the gradient descent will be slow for this function because it is smoothful.
+\item Take the derivative of function $h(x,y)$:
+\[\frac{\partial h(x,y)}{\partial x} = -400x(-x^{2}+y)+2x-2\]
+\[\frac{\partial h(x,y)}{\partial y} = -200x^{2}+200y\]
+In order to find the critical point, set $\frac{\partial h(x,y)}{\partial x} =\frac{\partial h(x,y)}{\partial y}=0$, we have $(1,1)$ as its only solution. Hence $(1,1)$ is the unique critical point of $h$.
+From its Hessian matrix,
+\begin{center}
+\[ 
+\left(
+\begin{array}{cc}
+1200x^{2}-400y+2&-400x\\
+-400x&200\\
+\end{array}
+\right)
+\]
+\end{center}
+At point (1,1), we have the following form:
+
+\begin{center}
+\[ 
+\left(
+\begin{array}{cc}
+802&-400\\
+-400&200\\
+\end{array}
+\right)
+\]
+\end{center}
+Its eigenvalues are all positive so it's positive definite matrix. Hence $(1,1)$ is a minimum point for function $h$.  
+
+
+\item The gradient descent iteration rule for this functions is:
+\[x_{n+1}=x_{n}-\eta(2x_{n}-2-400x_n(y_n-x_{n}^{2}))\]
+\[y_{n+1}=y_{n}-200\eta (y_{n}-x_{n}^{2})\]
+\item implement gradient descent in matlab 
+
+\end{enumerate}
+\item Exercise 3 -weight 2.5
+\begin{enumerate}
+\item $p(F1=Apple | F2=Grapefruit)=\frac{p(F1=Apple,F2=Grapefruit)}{p(F2=Grapefruit)}=0.72$.\\
+Knowing the result of second pick gives the information of the box chosen, therefore have effect on the probability of the first pick.
+\item Sampling without replacement.\\
+$p(F1=Apple | F2=Grapefruit)=\frac{p(F1=Apple,F2=Grapefruit)}{p(F2=Grapefruit)}=0.78$.\\
+The difference is caused by the probability change due to the total number of fruit change.
+\item $p(F2=Grapefruit)=p(F2=Grapefruit | box1)+p(F2=Grapefruit | box2) = 0.25$. The first pick result have no affect on this computation and results.\\
+The two picks now is still depend on each other. From calculation perspective, \[p(F1=Apple)=\frac{7}{12}\] and \[p(F2=Grapefruit)=0.25\] However, $p(F1=Apple,F2=Grapefruit)=\frac{7}{72}$ which is not equal to $p(F1=Apple)p(F2=Grapefruit)$.\\
+From intuitive understanding, the first pick decide which box has been chosen, which affects the second pick.
+\end{enumerate}
+\item Exercise 4 - bonus 1 point
+\begin{enumerate}
+\item $p(x_{1},x_{2},x_{3},x_{4})=p(x_{1},x_{4}|x_{2})p(x_{2},x_{3}|x_{1})=\frac{p(x_{1},x_{4},x_{2})p(x_{2},x_{3},x_{1})}{p(x_{2})p(x_{1})}$\\ Which means:\[\sum_{x_{3}}\sum_{x_{4}}p(x_{1},x_{2},x_{3},x_{4})=\sum_{x_{3}}\sum_{x_{4}}\frac{p(x_{1},x_{4},x_{2})p(x_{2},x_{3},x_{1})}{p(x_{2})p(x_{1})}\]
+Therefore, $p(x_{1})p(x_{2})=p(x_{1},x_{2})$ which implies $X_{1}$ is independent of $X_{2}$.
+\item $p(x_{3},x_{4}|x_{1},x_{2})p(x_{1},x_{2})=p(x_{4}|x_{1}x_{2})p(x_{3}|x_{1}x_{2})p(x_{1})p(x_{2})$\\ Since $p(x_{1})p(x_{2})=p(x_{1},x_{2})$, so \[p(x_{3},x_{4}|x_{1},x_{2})=p(x_{4}|x_{1}x_{2})p(x_{3}|x_{1}x_{2})\] which implies $X_{3}$ is independent of $X_{4}$ given $X_{1}$ and $X_{2}$
+\end{enumerate}
+
+\end{enumerate}
+\end{document}
